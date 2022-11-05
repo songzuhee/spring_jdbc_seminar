@@ -3,6 +3,7 @@ package com.umc.baemin_umc;
 import com.umc.baemin_umc.Model.GetUserRes;
 import com.umc.config.BaseException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
