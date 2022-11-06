@@ -1,6 +1,6 @@
-package com.umc.baemin_umc;
+package com.umc.src.user;
 
-import com.umc.baemin_umc.Model.GetUserRes;
+import com.umc.src.user.Model.GetUserRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

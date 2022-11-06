@@ -1,15 +1,11 @@
-package com.umc.baemin_umc;
+package com.umc.src.user;
 
-import com.umc.baemin_umc.Model.GetUserRes;
+import com.umc.src.user.Model.GetUserRes;
 import com.umc.config.BaseException;
 import com.umc.config.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNullApi;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 
 
 @RestController

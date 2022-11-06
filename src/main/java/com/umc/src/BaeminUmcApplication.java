@@ -1,4 +1,4 @@
-package com.umc.baemin_umc;
+package com.umc.src;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

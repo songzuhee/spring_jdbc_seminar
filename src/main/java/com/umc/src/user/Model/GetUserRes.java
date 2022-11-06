@@ -1,4 +1,4 @@
-package com.umc.baemin_umc.Model;
+package com.umc.src.user.Model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
