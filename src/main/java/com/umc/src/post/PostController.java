@@ -65,7 +65,7 @@ public class PostController {
     public BaseResponse<String> deletePost(@PathVariable("postIdx")int postIdx)
         throws BaseException {
         postService.deletePost(postIdx);
-        String result = "댓글이 삭제되었습니다. ";
+        String result = "게시글이 삭제되었습니다. ";
         return new BaseResponse<>(result);
     }
 

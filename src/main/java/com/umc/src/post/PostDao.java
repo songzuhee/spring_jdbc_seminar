@@ -43,14 +43,18 @@ public class PostDao {
     }
 
     public int deletePost(int postIdx) {
-        String deletePostQuery = "update Post SET status = 'DELETED' where = postIdx= ? ;";
+        String deletePostQuery = "UPDATE Post\n" +
+                "        SET status = 'INACTIVE'\n" +
+                "        WHERE postIdx = ? ";
         int deletePostParams = postIdx;
         return this.jdbcTemplate.update(deletePostQuery, deletePostParams);
     }
 
     // 게시글 수정
     public int updatePost(int postIdx, PathPostReq pathPostReq){
-        String updatePostQuery = "update Post SET content = ? where postIdx = ?;";
+        String updatePostQuery = "UPDATE Post\n" +
+                "        SET content = ?\n" +
+                "        WHERE postIdx = ?" ;
         Object[] updatePostParams = new Object[]{pathPostReq.getContent(), postIdx};
         return this.jdbcTemplate.update(updatePostQuery, updatePostParams);
     }
