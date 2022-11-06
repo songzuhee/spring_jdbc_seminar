@@ -1,6 +1,7 @@
 package com.umc.src.post;
 
 import com.umc.config.BaseException;
+import com.umc.src.post.Model.PathPostReq;
 import com.umc.src.post.Model.PostPostReq;
 import com.umc.src.post.Model.PostPostRes;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,21 @@ public class PostService {
         } catch (Exception exception) {
                 throw new BaseException(DATABASE_ERROR);
             }
+    }
 
+    // 게시글 수정
+    public void updatePost(int postIdx, PathPostReq pathPostReq) throws BaseException {
+
+        int result = 0;
+
+        try {
+            if(pathPostReq.getContent() != null) {
+                result = postDao.updatePost(postIdx, pathPostReq);
+            }
+
+            if (result == 0) throw new BaseException(UPDATE_FAIL_POST);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 }

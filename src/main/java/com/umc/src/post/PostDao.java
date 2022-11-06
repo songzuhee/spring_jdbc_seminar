@@ -1,6 +1,7 @@
 package com.umc.src.post;
 
 import com.umc.src.post.Model.GetPostRes;
+import com.umc.src.post.Model.PathPostReq;
 import com.umc.src.post.Model.PostPostReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -47,4 +48,10 @@ public class PostDao {
         return this.jdbcTemplate.update(deletePostQuery, deletePostParams);
     }
 
+    // 게시글 수정
+    public int updatePost(int postIdx, PathPostReq pathPostReq){
+        String updatePostQuery = "update Post SET content = ? where postIdx = ?;";
+        Object[] updatePostParams = new Object[]{pathPostReq.getContent(), postIdx};
+        return this.jdbcTemplate.update(updatePostQuery, updatePostParams);
+    }
 }

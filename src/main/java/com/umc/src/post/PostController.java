@@ -3,6 +3,7 @@ package com.umc.src.post;
 import com.umc.config.BaseException;
 import com.umc.config.BaseResponse;
 import com.umc.src.post.Model.GetPostRes;
+import com.umc.src.post.Model.PathPostReq;
 import com.umc.src.post.Model.PostPostReq;
 import com.umc.src.post.Model.PostPostRes;
 import lombok.RequiredArgsConstructor;
@@ -66,6 +67,20 @@ public class PostController {
         postService.deletePost(postIdx);
         String result = "댓글이 삭제되었습니다. ";
         return new BaseResponse<>(result);
+    }
+
+    // 게시글 수정
+    @ResponseBody
+    @PatchMapping("change/{postIdx}")
+    public BaseResponse<String> updatePost(@PathVariable("postIdx") int postIdx, @RequestBody PathPostReq pathPostReq) throws BaseException {
+
+        try {
+            postService.updatePost(postIdx, pathPostReq);
+            String result = "게시글 수정을 완료하였습니다. ";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
     }
 }
 

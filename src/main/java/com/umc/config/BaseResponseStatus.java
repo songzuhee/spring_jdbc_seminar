@@ -27,7 +27,8 @@ public enum BaseResponseStatus {
 
     // Post
     CREATE_FAIL_POST(false, 4002, "게시글 생성을 실패하였습니다."),
-    DELETE_FAIL_POST(false, 4003, "게시글 수정을 실패하였습니다.");
+    DELETE_FAIL_POST(false, 4003, "게시글 삭제를 실패하였습니다."),
+    UPDATE_FAIL_POST(false, 4004, "게시글 수정을 실패하였습니다. ");
     private final boolean isSuccess;
     private final int code;
     private final String message;
