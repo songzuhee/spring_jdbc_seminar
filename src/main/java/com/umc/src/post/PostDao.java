@@ -26,7 +26,6 @@ public class PostDao {
                 (rs, rowNum) -> new GetPostRes(
                         rs.getInt("postIdx"),
                         rs.getString("nickName"),
-                        rs.getString("imgUrl"),
                         rs.getString("content")), selectPostParams);
     }
 }

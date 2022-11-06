@@ -11,6 +11,5 @@ public class GetPostRes {
 
     private int postIdx;
     private String nickName;
-    private String imgUrl;
     private String content;
 }
