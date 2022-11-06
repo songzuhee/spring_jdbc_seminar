@@ -42,6 +42,7 @@ public class PostController {
         }
     }
 
+    // 게시글 작성
     @ResponseBody
     @PostMapping("/")
     public BaseResponse<PostPostRes> creatPost(@RequestBody PostPostReq postPostReq) throws BaseException {
@@ -56,4 +57,15 @@ public class PostController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    // 게시글 삭제
+    @ResponseBody
+    @PatchMapping("/{postIdx}/status")
+    public BaseResponse<String> deletePost(@PathVariable("postIdx")int postIdx)
+        throws BaseException {
+        postService.deletePost(postIdx);
+        String result = "댓글이 삭제되었습니다. ";
+        return new BaseResponse<>(result);
+    }
 }
+

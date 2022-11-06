@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import static com.umc.config.BaseResponseStatus.CREATE_FAIL_POST;
+import static com.umc.config.BaseResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +26,19 @@ public class PostService {
         } catch (Exception exception) {
             throw new BaseException(CREATE_FAIL_POST);
         }
+    }
+
+    // 게시글 삭제
+    public void deletePost(int postIdx) throws BaseException {
+
+        try {
+            int result = postDao.deletePost(postIdx);
+            if (result == 0) {
+                throw new BaseException(DELETE_FAIL_POST);
+            }
+        } catch (Exception exception) {
+                throw new BaseException(DATABASE_ERROR);
+            }
+
     }
 }

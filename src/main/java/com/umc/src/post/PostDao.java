@@ -40,4 +40,11 @@ public class PostDao {
         String lastpostIdxQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastpostIdxQuery, int.class);
     }
+
+    public int deletePost(int postIdx) {
+        String deletePostQuery = "update Post SET status = 'DELETED' where = postIdx= ? ;";
+        int deletePostParams = postIdx;
+        return this.jdbcTemplate.update(deletePostQuery, deletePostParams);
+    }
+
 }
