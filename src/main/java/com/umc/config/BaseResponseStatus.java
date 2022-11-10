@@ -22,6 +22,8 @@ public enum BaseResponseStatus {
     DUPLICATED_EMAIL(false, 2004, "중복된 이메일입니다."),
 
     FALSE_PWD(false, 2005, "비밀번호가 일치하지 않습니다."),
+    INACTIVE_ACCOUNT(false, 2006, "권한이 없는 유저의 접근입니다. "),
+
 
     /**
      * 4000 : Database, Server 오류
@@ -36,6 +38,7 @@ public enum BaseResponseStatus {
     DELETE_FAIL_POST(false, 4003, "게시글 삭제를 실패하였습니다."),
     UPDATE_FAIL_POST(false, 4004, "게시글 수정을 실패하였습니다. "),
 
+    FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
     // 5000
     POST_USERS_EMPTY_EMAIL(false, 5000, "이메일을 입력하세요. "),
     POST_USERS_EMPTY_ID(false, 5001, "아이디를 입력하세요. "),
@@ -43,7 +46,10 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_NICKNAME(false, 5003, "닉네임을 입력하세요. "),
     POST_USERS_EMPTY_PHONE(false, 5004, "전화번호를 입력하세요. "),
     POST_USERS_INVALID_EMAIL(false, 5005, "이메일형식을 확인해주세요."),
-    PASSWORD_EXCRYPTION_ERROR(false, 5006, "비밀번호 암호화에 실패했습니다.");
+    PASSWORD_EXCRYPTION_ERROR(false, 5006, "비밀번호 암호화에 실패했습니다."),
+
+    // 6000
+    PASSWORD_DECRYPTION_ERROR(false, 4011, "비밀번호 복호화에 실패하였습니다.");
     private final boolean isSuccess;
     private final int code;
     private final String message;

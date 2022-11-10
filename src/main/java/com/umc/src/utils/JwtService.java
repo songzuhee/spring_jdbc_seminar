@@ -7,6 +7,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -19,11 +22,12 @@ import static com.umc.config.BaseResponseStatus.INVALID_JWT;
 
 @Service
 public class JwtService {
+
     /*
-        JWT 생성
-        @param userIdx
-        @return String
-         */
+    JWT 생성
+    @param userIdx
+    @return String
+     */
     public String createJwt(int userIdx){
         Date now = new Date();
         return Jwts.builder()
@@ -69,4 +73,5 @@ public class JwtService {
         // 3. userIdx 추출
         return claims.getBody().get("userIdx",Integer.class);
     }
+
 }

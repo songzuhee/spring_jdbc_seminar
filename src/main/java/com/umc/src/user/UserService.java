@@ -1,9 +1,9 @@
 package com.umc.src.user;
 
 import com.umc.config.BaseException;
-import com.umc.config.BaseResponseStatus;
-import com.umc.src.user.Model.PostJoinReq;
-import com.umc.src.user.Model.PostJoinRes;
+import com.umc.src.auth.Model.PostLoginReq;
+import com.umc.src.auth.Model.PostLoginRes;
+import com.umc.src.user.Model.*;
 import com.umc.src.utils.AES256;
 import com.umc.src.utils.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -53,5 +53,4 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
 }
