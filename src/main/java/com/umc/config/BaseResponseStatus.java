@@ -19,6 +19,10 @@ public enum BaseResponseStatus {
     EMPTY_JWT(false, 2001, "JWT를 입력해주세요."),
     INVALID_JWT(false, 2002, "유효하지 않은 JWT입니다."),
     POST_EMPTY_CONTENT(false, 2000, "내용을 입력해주세요."),
+    DUPLICATED_EMAIL(false, 2004, "중복된 이메일입니다."),
+
+    FALSE_PWD(false, 2005, "비밀번호가 일치하지 않습니다."),
+
     /**
      * 4000 : Database, Server 오류
      */
@@ -30,7 +34,16 @@ public enum BaseResponseStatus {
     // Post
     CREATE_FAIL_POST(false, 4002, "게시글 생성을 실패하였습니다."),
     DELETE_FAIL_POST(false, 4003, "게시글 삭제를 실패하였습니다."),
-    UPDATE_FAIL_POST(false, 4004, "게시글 수정을 실패하였습니다. ");
+    UPDATE_FAIL_POST(false, 4004, "게시글 수정을 실패하였습니다. "),
+
+    // 5000
+    POST_USERS_EMPTY_EMAIL(false, 5000, "이메일을 입력하세요. "),
+    POST_USERS_EMPTY_ID(false, 5001, "아이디를 입력하세요. "),
+    POST_USERS_EMPTY_PASSWORD(false, 5002, "비밀번호를 입력하세요. "),
+    POST_USERS_EMPTY_NICKNAME(false, 5003, "닉네임을 입력하세요. "),
+    POST_USERS_EMPTY_PHONE(false, 5004, "전화번호를 입력하세요. "),
+    POST_USERS_INVALID_EMAIL(false, 5005, "이메일형식을 확인해주세요."),
+    PASSWORD_EXCRYPTION_ERROR(false, 5006, "비밀번호 암호화에 실패했습니다.");
     private final boolean isSuccess;
     private final int code;
     private final String message;

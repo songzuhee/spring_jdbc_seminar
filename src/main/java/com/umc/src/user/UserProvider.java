@@ -27,4 +27,14 @@ public class UserProvider {
         }
 
     }
+
+    // 이메일 중복 검사
+    public int checkEmail(String email) throws BaseException{
+        try{
+            return userDao.checkEmail(email);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
 }
