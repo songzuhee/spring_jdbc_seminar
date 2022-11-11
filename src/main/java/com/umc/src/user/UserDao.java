@@ -1,5 +1,6 @@
 package com.umc.src.user;
 
+import com.umc.src.user.Model.GetUserListRes;
 import com.umc.src.user.Model.GetUserRes;
 import com.umc.src.user.Model.PostJoinReq;
 import com.umc.src.user.Model.PostJoinRes;
@@ -8,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class UserDao {
@@ -50,6 +52,15 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(lasrInsertQuery, int.class);
     }
 
+    // 전체 유저 조회
+    public List<GetUserListRes> selectUserList() {
+        String selectUserListQuery = "select * from User;";
+        return this.jdbcTemplate.query(selectUserListQuery,
+                (rs, rowNum) -> new GetUserListRes(
+                        rs.getInt("userIdx"),
+                        rs.getString("nickName")
+                ));
+    }
     // 이메일 중복 검사
     public int checkEmail(String email){
         String checkEmailQuery = "select exists(select email from User where email = ?)";

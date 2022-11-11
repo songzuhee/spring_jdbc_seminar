@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.umc.config.BaseResponseStatus.*;
 import static com.umc.src.utils.ValidationRegex.isRegexEmail;
 
@@ -27,6 +29,21 @@ public class UserController {
         this.userService = userService;
     }
 
+    /*
+    전체 유저 조회
+     */
+
+    @ResponseBody
+    @GetMapping("/")
+    public BaseResponse<List<GetUserListRes>> getUserList() {
+        try {
+            List<GetUserListRes> getUserListRes = userProvider.UserList();
+            return new BaseResponse<>(getUserListRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     @ResponseBody
     @GetMapping("/{userIdx}")
     public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
@@ -40,6 +57,12 @@ public class UserController {
         }
     }
 
+    /*
+    프로필 수정
+     */
+    @ResponseBody
+    @PatchMapping("/{userIdx}")
+    public BaseResponse<String> modifyProfile(@PathVariable("userIdx")int userIdx)
     /*
     회원가입 API
     [POST] /users/sign-in
