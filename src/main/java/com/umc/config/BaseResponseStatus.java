@@ -49,6 +49,8 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_PHONE(false, 5004, "전화번호를 입력하세요. "),
     POST_USERS_INVALID_EMAIL(false, 5005, "이메일형식을 확인해주세요."),
     PASSWORD_EXCRYPTION_ERROR(false, 5006, "비밀번호 암호화에 실패했습니다."),
+    ORDER_EMPTY_METHOD(false, 5007, "결제 방식을 선택해주세요."),
+    ORDER_EMPTY_PRICE(false, 5008,"금액을 입력하세요."),
 
     // 6000
     PASSWORD_DECRYPTION_ERROR(false, 4011, "비밀번호 복호화에 실패하였습니다.");

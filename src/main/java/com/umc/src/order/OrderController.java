@@ -4,11 +4,15 @@ import com.umc.config.BaseException;
 import com.umc.config.BaseResponse;
 import com.umc.src.order.Model.GetUserListRes;
 import com.umc.src.order.Model.GetUserRes;
+import com.umc.src.order.Model.PostUserReq;
+import com.umc.src.order.Model.PostUserRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.umc.config.BaseResponseStatus.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,4 +58,25 @@ public class OrderController {
         }
     }
 
+    // 주문 하기
+    @ResponseBody
+    @PostMapping("/{userIdx}")
+    public BaseResponse<PostUserReq> createOrder(@PathVariable("userIdx") int userIdx, @RequestBody PostUserReq postUserReq) throws BaseException {
+        try {
+            if (postUserReq.getPay_method() == null)
+            {
+                return new BaseResponse<>(ORDER_EMPTY_METHOD);
+            }
+            if (postUserReq.getTotal_price() == 0)
+            {
+                return new BaseResponse<>(ORDER_EMPTY_PRICE);
+            }
+
+            PostUserRes postUserRes = orderService.createOrder(userIdx, postUserReq);
+            return new BaseResponse<>(postUserReq);
+        }   catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+
+    }
 }

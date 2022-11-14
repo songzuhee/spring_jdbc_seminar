@@ -2,6 +2,7 @@ package com.umc.src.order;
 
 import com.umc.src.order.Model.GetUserListRes;
 import com.umc.src.order.Model.GetUserRes;
+import com.umc.src.order.Model.PostUserReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -58,5 +59,19 @@ public class OrderDao {
                         rs.getString("food_name"),
                         rs.getString("status")
                 ),selectUserOrderListParams);
+    }
+
+    // 주문 하기
+    public int createOrder(int userIdx, PostUserReq postUserReq) {
+        String createOrderQuery = "insert into `Order`(optionIdx, storeIdx, " +
+                "menuIdx, pay_method, total_price, requests, userIdx) " +
+                "values (?,?,?,?,?,?,?);";
+
+        Object[] createOrderParams = new Object[]{postUserReq.getOptionIdx(), postUserReq.getStoreIdx(),
+        postUserReq.getMenuIdx(), postUserReq.getPay_method(), postUserReq.getTotal_price(), postUserReq.getRequests(),userIdx};
+        this.jdbcTemplate.update(createOrderQuery, createOrderParams);
+
+        String lastorderIdxQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastorderIdxQuery, int.class);
     }
 }
