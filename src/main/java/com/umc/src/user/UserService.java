@@ -79,4 +79,17 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    // 유저 삭제
+    public void inactiveUser(int userIdx) throws BaseException {
+        try {
+            int result = userDao.updateUserStatus(userIdx);
+            if (result == 0) {
+                throw new BaseException(DELETE_FAIL_USER);
+                }
+            }catch (Exception exception){
+                throw new BaseException(DATABASE_ERROR);
+            }
+
+    }
 }

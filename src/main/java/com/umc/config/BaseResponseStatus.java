@@ -39,6 +39,8 @@ public enum BaseResponseStatus {
     UPDATE_FAIL_POST(false, 4004, "게시글 수정을 실패하였습니다. "),
     MODIFY_FAIL_USERNAME(false, 4005, "프로필 수정을 실패하였습니다."),
 
+    // USER
+    DELETE_FAIL_USER(false, 4006, "회원 삭제를 실패하였습니다. "),
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
     USERS_EMPTY_USER_ID(false, 3015, "없는 계정입니다."),
     // 5000

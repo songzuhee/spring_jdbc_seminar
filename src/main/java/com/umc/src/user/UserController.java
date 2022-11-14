@@ -133,4 +133,24 @@ public class UserController {
         }
     }
 
+    /*
+    유저 삭제 API
+     */
+    @ResponseBody
+    @PatchMapping("/inactive/{userIdx}")
+    public BaseResponse<String> inactiveUser(@PathVariable("userIdx") int userIdx) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_JWT);
+            }
+            userService.inactiveUser(userIdx);
+
+            String result = "유저 삭제되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }
