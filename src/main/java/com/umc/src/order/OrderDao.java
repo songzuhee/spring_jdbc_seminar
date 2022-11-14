@@ -1,11 +1,13 @@
 package com.umc.src.order;
 
+import com.umc.src.order.Model.GetUserListRes;
 import com.umc.src.order.Model.GetUserRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class OrderDao {
@@ -35,5 +37,26 @@ public class OrderDao {
                         rs.getString("pay_method"),
                         rs.getInt("total_price")
                 ), selectUserOlderParams);
+    }
+
+    // 유저 주문내역 전체 조회
+    public List<GetUserListRes> selectUserOrderList(int userIdx) {
+        String selectUserOrderListQuery ="select o.userIdx, s.name, s.store_img, m.name as food_name, o.status\n" +
+                "from `Order` o\n" +
+                "         left Join Store as s\n" +
+                "                   on s. storeIdx = o.storeIdx\n" +
+                "         left Join Menu as m\n" +
+                "                   on m.storeIdx = s.storeIdx\n" +
+                "where o.userIdx =?;";
+        int selectUserOrderListParams = userIdx;
+
+        return this.jdbcTemplate.query(selectUserOrderListQuery,
+                (rs, rowNum) -> new GetUserListRes(
+                        rs.getInt("userIdx"),
+                        rs.getString("name"),
+                        rs.getString("store_img"),
+                        rs.getString("food_name"),
+                        rs.getString("status")
+                ),selectUserOrderListParams);
     }
 }
