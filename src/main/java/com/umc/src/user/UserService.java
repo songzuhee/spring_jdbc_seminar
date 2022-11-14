@@ -60,11 +60,21 @@ public class UserService {
             throw new BaseException(USERS_EMPTY_USER_ID);
 
         }
+
+        // 비밀번호 암호화
+        String password;
+        try {
+            password = new AES256().encrypt(postUpdateReq.getPassword());
+            postUpdateReq.setPassword(password);
+        } catch (Exception ignored) {
+            throw new BaseException(PASSWORD_EXCRYPTION_ERROR);
+        }
         try {
             int result = userDao.updateProfile(userIdx, postUpdateReq, userIdxByJwt);
             if(result == 0) {
                 throw new BaseException(MODIFY_FAIL_USERNAME);
             }
+
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
