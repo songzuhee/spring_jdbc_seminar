@@ -20,13 +20,14 @@ public class OrderDao {
     }
 
     // 해당 유저 주문 상세 내역 조회
-    public GetUserRes selectUserOlder(int userIdx) {
+    public GetUserRes selectUserOlder(int userIdx, int orderIdx) {
         String selectUserOlderQuery = "select o.userIdx, o.orderIdx, s.name, s.food_category, o.createdAt, o.pay_method, o.total_price\n" +
                 "from `Order` o\n" +
                 "left Join Store s\n" +
                 "on s.storeIdx = o.storeIdx\n" +
-                "where o.userIdx =?;";
+                "where o.userIdx =? and o.orderIdx = ?;";
         int selectUserOlderParams = userIdx;
+        int selectUserOrderParams1 = orderIdx;
 
         return this.jdbcTemplate.queryForObject(selectUserOlderQuery,
                 (rs, rowNum) -> new GetUserRes(
@@ -37,7 +38,7 @@ public class OrderDao {
                         rs.getString("createdAt"),
                         rs.getString("pay_method"),
                         rs.getInt("total_price")
-                ), selectUserOlderParams);
+                ), selectUserOlderParams, selectUserOrderParams1);
     }
 
     // 유저 주문내역 전체 조회

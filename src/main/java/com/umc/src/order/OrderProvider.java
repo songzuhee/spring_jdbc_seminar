@@ -20,9 +20,9 @@ public class OrderProvider {
     private final OrderDao orderDao;
 
     // 해당 유저 주문상세 조회
-    public GetUserRes getUserOlder(int userIdx) throws BaseException {
+    public GetUserRes getUserOlder(int userIdx, int orderIdx) throws BaseException {
 
-            GetUserRes getUserRes = orderDao.selectUserOlder(userIdx);
+            GetUserRes getUserRes = orderDao.selectUserOlder(userIdx, orderIdx);
             return getUserRes;
 
     }

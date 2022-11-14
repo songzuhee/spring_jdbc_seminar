@@ -33,10 +33,10 @@ public class OrderController {
     해당 유저 주문 상세 조회
      */
     @ResponseBody
-    @GetMapping("/{userIdx}")
-    public BaseResponse<GetUserRes> getUserOlder(@PathVariable("userIdx") int userIdx) {
+    @GetMapping("/{userIdx}/{orderIdx}")
+    public BaseResponse<GetUserRes> getUserOlder(@PathVariable("userIdx") int userIdx, @PathVariable("orderIdx") int orderIdx) {
         try {
-            GetUserRes getUserRes = orderProvider.getUserOlder(userIdx);
+            GetUserRes getUserRes = orderProvider.getUserOlder(userIdx, orderIdx);
             return new BaseResponse<>(getUserRes);
         } catch(BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
