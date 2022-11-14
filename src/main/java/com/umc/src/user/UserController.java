@@ -5,6 +5,7 @@ import com.umc.src.auth.Model.PostLoginRes;
 import com.umc.src.user.Model.*;
 import com.umc.config.BaseException;
 import com.umc.config.BaseResponse;
+import com.umc.src.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +23,18 @@ public class UserController {
 
     private UserProvider userProvider;
     private UserService userService;
+    private JwtService jwtService;
 
     @Autowired
-    public UserController(UserProvider userProvider, UserService userService) {
+    public UserController(UserProvider userProvider, UserService userService, JwtService jwtService) {
         this.userProvider = userProvider;
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
     /*
     전체 유저 조회
      */
-
     @ResponseBody
     @GetMapping("/")
     public BaseResponse<List<GetUserListRes>> getUserList() {
@@ -44,6 +46,9 @@ public class UserController {
         }
     }
 
+    /*
+    유저 조회
+     */
     @ResponseBody
     @GetMapping("/{userIdx}")
     public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
@@ -64,27 +69,33 @@ public class UserController {
     @PatchMapping("/{userIdx}")
     public BaseResponse<String> modifyProfile(@PathVariable("userIdx")int userIdx, @RequestBody PostUpdateReq postUpdateReq) {
 
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_JWT);
+            }
+
             if (postUpdateReq.getEmail() == null) {
                 return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
             }
-            if(postUpdateReq.getPassword() == null) {
+            if (postUpdateReq.getPassword() == null) {
                 return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
             }
-            if(postUpdateReq.getNickName() == null){
+            if (postUpdateReq.getNickName() == null) {
                 return new BaseResponse<>(POST_USERS_EMPTY_NICKNAME);
             }
             if (postUpdateReq.getPhoneNumber() == null) {
                 return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
             }
-            try{
-                userService.modifyProfile(userIdx, postUpdateReq);
-                String result = "회원정보 수정을 완료하였습니다. ";
-                return new BaseResponse<>(result);
-            }
-         catch (BaseException exception) {
+
+            userService.modifyProfile(userIdx, postUpdateReq, userIdxByJwt);
+            String result = "회원정보 수정을 완료하였습니다. ";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
     /*
     회원가입 API
     [POST] /users/sign-in

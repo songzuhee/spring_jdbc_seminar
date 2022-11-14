@@ -60,7 +60,7 @@ public class UserDao {
     }
 
     // 회원 정보 수정
-    public int updateProfile(int userIdx, PostUpdateReq postUpdateReq){
+    public int updateProfile(int userIdx, PostUpdateReq postUpdateReq, int userIdxByJwt){
         String updateUserNameQuery = "update User set phoneNumber=?,nickName=?, email = ?, password=?where userIdx = ? ";
         Object[] updateUserNameParams = new Object[]{postUpdateReq.getPhoneNumber(), postUpdateReq.getNickName(),postUpdateReq.getEmail(), postUpdateReq.getPassword(), userIdx};
 

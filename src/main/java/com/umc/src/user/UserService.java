@@ -55,13 +55,13 @@ public class UserService {
     }
 
     // 프로필 수정
-    public void modifyProfile(int userIdx, PostUpdateReq postUpdateReq) throws BaseException {
+    public void modifyProfile(int userIdx, PostUpdateReq postUpdateReq,int userIdxByJwt) throws BaseException {
         if(userProvider.checkUserExist(userIdx) == 0) {
             throw new BaseException(USERS_EMPTY_USER_ID);
 
         }
         try {
-            int result = userDao.updateProfile(userIdx, postUpdateReq);
+            int result = userDao.updateProfile(userIdx, postUpdateReq, userIdxByJwt);
             if(result == 0) {
                 throw new BaseException(MODIFY_FAIL_USERNAME);
             }
