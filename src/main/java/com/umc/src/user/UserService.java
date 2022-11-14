@@ -53,4 +53,20 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    // 프로필 수정
+    public void modifyProfile(int userIdx, PostUpdateReq postUpdateReq) throws BaseException {
+        if(userProvider.checkUserExist(userIdx) == 0) {
+            throw new BaseException(USERS_EMPTY_USER_ID);
+
+        }
+        try {
+            int result = userDao.updateProfile(userIdx, postUpdateReq);
+            if(result == 0) {
+                throw new BaseException(MODIFY_FAIL_USERNAME);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

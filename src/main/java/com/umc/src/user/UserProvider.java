@@ -51,4 +51,13 @@ public class UserProvider {
 
     }
 
+    // 유저 확인
+    public int checkUserExist(int userIdx) throws BaseException{
+        try{
+            return userDao.checkUserExist(userIdx);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }

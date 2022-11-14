@@ -62,7 +62,29 @@ public class UserController {
      */
     @ResponseBody
     @PatchMapping("/{userIdx}")
-    public BaseResponse<String> modifyProfile(@PathVariable("userIdx")int userIdx)
+    public BaseResponse<String> modifyProfile(@PathVariable("userIdx")int userIdx, @RequestBody PostUpdateReq postUpdateReq) {
+
+            if (postUpdateReq.getEmail() == null) {
+                return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
+            }
+            if(postUpdateReq.getPassword() == null) {
+                return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
+            }
+            if(postUpdateReq.getNickName() == null){
+                return new BaseResponse<>(POST_USERS_EMPTY_NICKNAME);
+            }
+            if (postUpdateReq.getPhoneNumber() == null) {
+                return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
+            }
+            try{
+                userService.modifyProfile(userIdx, postUpdateReq);
+                String result = "회원정보 수정을 완료하였습니다. ";
+                return new BaseResponse<>(result);
+            }
+         catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
     /*
     회원가입 API
     [POST] /users/sign-in

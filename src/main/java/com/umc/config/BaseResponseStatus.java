@@ -37,8 +37,10 @@ public enum BaseResponseStatus {
     CREATE_FAIL_POST(false, 4002, "게시글 생성을 실패하였습니다."),
     DELETE_FAIL_POST(false, 4003, "게시글 삭제를 실패하였습니다."),
     UPDATE_FAIL_POST(false, 4004, "게시글 수정을 실패하였습니다. "),
+    MODIFY_FAIL_USERNAME(false, 4005, "프로필 수정을 실패하였습니다."),
 
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
+    USERS_EMPTY_USER_ID(false, 3015, "없는 계정입니다."),
     // 5000
     POST_USERS_EMPTY_EMAIL(false, 5000, "이메일을 입력하세요. "),
     POST_USERS_EMPTY_ID(false, 5001, "아이디를 입력하세요. "),

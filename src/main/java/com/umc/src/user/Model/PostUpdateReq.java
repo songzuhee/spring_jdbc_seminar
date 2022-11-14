@@ -7,4 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PostUpdateReq {
 
+    private String phoneNumber;
+    private String nickName;
+    private String email;
+    private String password;
+
 }

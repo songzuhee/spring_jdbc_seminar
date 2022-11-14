@@ -1,9 +1,6 @@
 package com.umc.src.user;
 
-import com.umc.src.user.Model.GetUserListRes;
-import com.umc.src.user.Model.GetUserRes;
-import com.umc.src.user.Model.PostJoinReq;
-import com.umc.src.user.Model.PostJoinRes;
+import com.umc.src.user.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -61,6 +58,14 @@ public class UserDao {
                         rs.getString("nickName")
                 ));
     }
+
+    // 회원 정보 수정
+    public int updateProfile(int userIdx, PostUpdateReq postUpdateReq){
+        String updateUserNameQuery = "update User set phoneNumber=?,nickName=?, email = ?, password=?where userIdx = ? ";
+        Object[] updateUserNameParams = new Object[]{postUpdateReq.getPhoneNumber(), postUpdateReq.getNickName(),postUpdateReq.getEmail(), postUpdateReq.getPassword(), userIdx};
+
+        return this.jdbcTemplate.update(updateUserNameQuery,updateUserNameParams);
+    }
     // 이메일 중복 검사
     public int checkEmail(String email){
         String checkEmailQuery = "select exists(select email from User where email = ?)";
@@ -69,4 +74,16 @@ public class UserDao {
                 int.class,
                 checkEmailParams);
     }
+
+    // 회원 확인
+    public int checkUserExist(int userIdx){
+        String checkUserExistQuery = "select exists(select userIdx from User where userIdx = ?)";
+        int checkUserExistParams = userIdx;
+        return this.jdbcTemplate.queryForObject(checkUserExistQuery,
+                int.class,
+                checkUserExistParams);
+
+    }
+
+
 }
