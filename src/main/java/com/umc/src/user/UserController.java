@@ -6,6 +6,10 @@ import com.umc.src.user.Model.*;
 import com.umc.config.BaseException;
 import com.umc.config.BaseResponse;
 import com.umc.src.utils.JwtService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +19,7 @@ import java.util.List;
 import static com.umc.config.BaseResponseStatus.*;
 import static com.umc.src.utils.ValidationRegex.isRegexEmail;
 
-
+@Api
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -33,8 +37,14 @@ public class UserController {
     }
 
     /*
-    전체 유저 조회
+     * 전체 유저 조회 API
+     * [GET] /users/
      */
+    @ApiOperation(value = "전체 유저 조회 API", notes ="DB에 저장된 모든 유저 조회")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러")
+    })
     @ResponseBody
     @GetMapping("/")
     public BaseResponse<List<GetUserListRes>> getUserList() {
@@ -47,8 +57,14 @@ public class UserController {
     }
 
     /*
-    유저 조회
+     * 유저 조회 API
+     * [GET] /users/:userIdx
      */
+    @ApiOperation(value = "유저 조회 API", notes ="PathVariable로 userIdx 받아와서 유저 상세조회")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러")
+    })
     @ResponseBody
     @GetMapping("/{userIdx}")
     public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
@@ -63,8 +79,22 @@ public class UserController {
     }
 
     /*
-    프로필 수정
+     * 프로필 수정 API
+     * [PATCH] /users/:userIdx
      */
+    @ApiOperation(value = "프로필 수정 API", notes ="PathVariable로 받아온 userIdx 의 프로필 수정")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러"),
+            @ApiResponse(code = 2002, message = "유효하지 않는 JWT입니다. "),
+            @ApiResponse(code = 5000, message = "이메일을 입력하세요. "),
+            @ApiResponse(code = 5002, message = "비밀번호를 입력하세요. "),
+            @ApiResponse(code = 5003, message = "닉네임을 입력하세요. "),
+            @ApiResponse(code = 5004, message = "전화번호를 입력하세요. "),
+            @ApiResponse(code = 3015, message = "없는 계정입니다. "),
+            @ApiResponse(code = 5006, message = "비밀번호 암호화에 실패했습니다. "),
+            @ApiResponse(code = 4005, message = "프로필 수정을 실패하였습니다. ")
+    })
     @ResponseBody
     @PatchMapping("/{userIdx}")
     public BaseResponse<String> modifyProfile(@PathVariable("userIdx")int userIdx, @RequestBody PostUpdateReq postUpdateReq) {
@@ -97,9 +127,21 @@ public class UserController {
     }
 
     /*
-    회원가입 API
-    [POST] /users/sign-in
+     * 회원가입 API
+     * [POST] /users/sign-in
      */
+    @ApiOperation(value = "회원가입 API", notes ="email, password 입력받아 회원가입, 비밀번호는 암호화되어 DB에 저장")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러"),
+            @ApiResponse(code = 5000, message = "이메일을 입력하세요. "),
+            @ApiResponse(code = 5001, message = "아이디를 입력하세요."),
+            @ApiResponse(code = 5002, message = "비밀번호를 입력하세요. "),
+            @ApiResponse(code = 5003, message = "닉네임을 입력하세요. "),
+            @ApiResponse(code = 5004, message = "전화번호를 입력하세요. "),
+            @ApiResponse(code = 2004, message = "중복된 이메일입니다."),
+            @ApiResponse(code = 2005, message = "비밀번호가 일치하지 않습니다.")
+    })
     @ResponseBody
     @PostMapping("/sign-in")
     public BaseResponse<PostJoinRes> createUser(@RequestBody PostJoinReq postJoinReq) {
@@ -134,8 +176,16 @@ public class UserController {
     }
 
     /*
-    유저 삭제 API
+     * 유저 삭제 API
+     * [PATCH] /users/inactive/:userIdx
      */
+    @ApiOperation(value = "유저 삭제 API", notes ="PathVariable로 받아온 userIdx의 status -> 'INACTIVE'로 변경")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러"),
+            @ApiResponse(code = 2002, message = "유효하지 않는 JWT입니다. "),
+            @ApiResponse(code = 4006, message = "회원 삭제를 실패하였습니다.")
+    })
     @ResponseBody
     @PatchMapping("/inactive/{userIdx}")
     public BaseResponse<String> inactiveUser(@PathVariable("userIdx") int userIdx) {
