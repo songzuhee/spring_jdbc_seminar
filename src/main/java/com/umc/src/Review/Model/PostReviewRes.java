@@ -1,4 +1,4 @@
-package com.umc.Review.Model;
+package com.umc.src.Review.Model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

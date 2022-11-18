@@ -53,6 +53,8 @@ public enum BaseResponseStatus {
     PASSWORD_EXCRYPTION_ERROR(false, 5006, "비밀번호 암호화에 실패했습니다."),
     ORDER_EMPTY_METHOD(false, 5007, "결제 방식을 선택해주세요."),
     ORDER_EMPTY_PRICE(false, 5008,"금액을 입력하세요."),
+    REVIEW_EMPTY_RATING(false, 5009, "별점을 입력하세요."),
+    REVIEW_EMPTY_CONTENT(false, 5010, "리뷰 내용을 입력하세요. "),
 
     // 6000
     PASSWORD_DECRYPTION_ERROR(false, 4011, "비밀번호 복호화에 실패하였습니다.");
