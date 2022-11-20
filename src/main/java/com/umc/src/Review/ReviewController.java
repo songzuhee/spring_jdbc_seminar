@@ -5,6 +5,9 @@ import com.umc.src.Review.Model.PostReviewRes;
 import com.umc.config.BaseException;
 import com.umc.config.BaseResponse;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +33,13 @@ public class ReviewController {
      * 리뷰 작성 API
      * [POST] /reviews/
      */
+    @ApiOperation(value = "리뷰 작성 API", notes = "userIdx, orderIdx, storeIdx 입력받아 각각의 해당하는 값의 리뷰를 작성")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러"),
+            @ApiResponse(code = 5009, message = "별점을 입력하세요."),
+            @ApiResponse(code = 5010, message = "리뷰 내용을 입력하세요.")
+    })
     @ResponseBody
     @PostMapping("/{userIdx}/{orderIdx}/{storeIdx}")
     public BaseResponse<PostReviewRes> createReview(@PathVariable("userIdx")int userIdx, @PathVariable("orderIdx") int orderIdx,
