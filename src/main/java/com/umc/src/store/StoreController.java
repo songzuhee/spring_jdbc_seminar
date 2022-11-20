@@ -2,6 +2,7 @@ package com.umc.src.store;
 
 import com.umc.config.BaseException;
 import com.umc.config.BaseResponse;
+import com.umc.src.store.Model.GetCategoryListRes;
 import com.umc.src.store.Model.GetDetailRes;
 import com.umc.src.store.Model.GetRankingListRes;
 import io.swagger.annotations.Api;
@@ -28,6 +29,27 @@ public class StoreController {
         this.storeProvider = storeProvider;
         this.storeService = storeService;
     }
+
+    /*
+     * 카테고리별 조회
+     * [GET] /stores/category/:categoryIdx
+     */
+    @ApiOperation(value = "카테고리별 가게 리스트 조회 API", notes = "입력 받은 categoryIdx 해당하는 가게 상세 조회")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러")
+    })
+    @ResponseBody
+    @GetMapping("/category/{categoryIdx}")
+    public BaseResponse<List<GetCategoryListRes>> getCategoryList(@PathVariable("categoryIdx")int categoryIdx) {
+        try {
+            List<GetCategoryListRes> getCategoryListRes = storeProvider.retrieveCategoryList(categoryIdx);
+            return new BaseResponse<>(getCategoryListRes);
+        }   catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 
     /*
      * 가게 상세 조회

@@ -1,5 +1,6 @@
 package com.umc.src.store;
 
+import com.umc.src.store.Model.GetCategoryListRes;
 import com.umc.src.store.Model.GetDetailRes;
 import com.umc.src.store.Model.GetRankingListRes;
 import com.umc.src.store.Model.GetStoreMenuRes;
@@ -21,15 +22,37 @@ public class StoreDao {
     }
 
     List<GetStoreMenuRes> getStoreMenuRes;
+
+    // 카테고리별 가게 리스트 조회
+    public List<GetCategoryListRes> selectCategoryStore(int categoryIdx) {
+        String selectCateStoreQuery = "select s.storeIdx, s.name as storeName, AVG(r.rating) as Avgrating, s.min_delivery_price,\n" +
+                "       s.delivery_tip, s.store_img, count(r.rating) as reviewCount\n" +
+                "from Store as s\n" +
+                "    left join Review as r ON r.storeIdx = s.storeIdx\n" +
+                "where s.categoryIdx = ? and s.status = 'ACTIVE'\n" +
+                "group by s.storeIdx;";
+        int selectCategoryParam = categoryIdx;
+
+        return this.jdbcTemplate.query(selectCateStoreQuery,
+                (rs, rowNum) -> new GetCategoryListRes(
+                        rs.getInt("storeIdx"),
+                        rs.getString("storeName"),
+                        rs.getInt("Avgrating"),
+                        rs.getInt("min_delivery_price"),
+                        rs.getInt("delivery_tip"),
+                        rs.getString("store_img"),
+                        rs.getInt("reviewCount")
+                ), selectCategoryParam);
+    }
     // 가게 상세 조회
     public GetDetailRes selectStore(int storeIdx) {
         String selectStoreQuery = "select s.storeIdx, s.name as storeName, s.min_delivery_price, s.delivery_tip,\n" +
-                "       s.operatingTime, s.delivery_time, s.phoneNumber, s.owner, s.delivery_address, s.address,\n" +
-                "       count(z.zzimIdx) as ZzimCount, s.owner_comment_count as ownerComment,\n" +
-                "       avg(r.rating) as Avgrating from Store as s\n" +
-                "join Review as  r on s.storeIdx = r.storeIdx\n" +
-                "join Zzim as z on z.storeIdx = s.storeIdx\n" +
-                "where s.storeIdx =?;";
+                "                       s.operatingTime, s.delivery_time, s.phoneNumber, s.owner, s.delivery_address, s.address,\n" +
+                "                       count(z.zzimIdx) as ZzimCount, s.owner_comment_count as ownerComment,\n" +
+                "                     avg(r.rating) as Avgrating from Store as s\n" +
+                "                left join Review as  r on s.storeIdx = r.storeIdx\n" +
+                "                left join Zzim as z on z.storeIdx = s.storeIdx\n" +
+                "                where s.storeIdx =? and s.status = 'ACTIVE';";
         int selectStoreParam = storeIdx;
 
         return this.jdbcTemplate.queryForObject(selectStoreQuery,
