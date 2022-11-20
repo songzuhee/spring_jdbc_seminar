@@ -2,6 +2,7 @@ package com.umc.src.store;
 
 import com.umc.config.BaseException;
 import com.umc.config.BaseResponse;
+import com.umc.src.store.Model.GetDetailRes;
 import com.umc.src.store.Model.GetRankingListRes;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,10 +10,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +27,27 @@ public class StoreController {
     public StoreController(StoreProvider storeProvider, StoreService storeService) {
         this.storeProvider = storeProvider;
         this.storeService = storeService;
+    }
+
+    /*
+     * 가게 상세 조회
+     * [GET] /stores/:storeIdx
+     */
+    @ApiOperation(value = "가게 상세 조회 API", notes = "입력 받은 storeIdx의 해당하는 가게 상세 조회")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러")
+    })
+    @ResponseBody
+    @GetMapping("/{storeIdx}")
+    public BaseResponse<GetDetailRes> getStores(@PathVariable("storeIdx")int storeIdx) {
+        try {
+
+            GetDetailRes getDetailRes = storeProvider.retrieveStore(storeIdx);
+            return new BaseResponse<>(getDetailRes);
+        }    catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
     }
 
     /*
