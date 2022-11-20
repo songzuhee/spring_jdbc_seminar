@@ -1,5 +1,6 @@
 package com.umc.src.Review;
 
+import com.umc.src.Review.Model.GetUserReviewListRes;
 import com.umc.src.Review.Model.PostReviewReq;
 import com.umc.src.Review.Model.PostReviewRes;
 import com.umc.config.BaseException;
@@ -11,6 +12,8 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.umc.config.BaseResponseStatus.REVIEW_EMPTY_CONTENT;
 import static com.umc.config.BaseResponseStatus.REVIEW_EMPTY_RATING;
@@ -57,6 +60,21 @@ public class ReviewController {
             PostReviewRes postReviewRes = reviewService.createReview(userIdx, orderIdx, storeIdx, postReviewReq);
             return new BaseResponse<>(postReviewRes);
         }   catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /*
+     * 작성한 리뷰 리스트 조회
+     * [GET] /reviews/:userIdx
+     */
+    @ResponseBody
+    @GetMapping("/{userIdx}")
+    public BaseResponse<List<GetUserReviewListRes>> getUserReivews(@PathVariable("userIdx")int userIdx){
+        try {
+            List<GetUserReviewListRes> getUserReviewListRes = reviewProvider.retrieveUserReviews(userIdx);
+            return new BaseResponse<>(getUserReviewListRes);
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
