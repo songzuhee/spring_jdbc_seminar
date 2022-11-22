@@ -3,6 +3,7 @@ package com.umc.src.zzim;
 import com.umc.config.BaseException;
 import com.umc.config.BaseResponse;
 import com.umc.src.utils.JwtService;
+import com.umc.src.zzim.Model.GetZzimRes;
 import com.umc.src.zzim.Model.PostZzimRes;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +12,8 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api
 @RestController
@@ -47,6 +50,21 @@ public class ZzimController {
             PostZzimRes postZzimRes = zzimService.createZzim(userIdx, storeIdx);
             return new BaseResponse<>(postZzimRes);
         } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /*
+     * 찜 리스트 조회
+     * [GET] /zzims/:userIdx
+     */
+    @ResponseBody
+    @GetMapping("/{userIdx}")
+    public BaseResponse<List<GetZzimRes>> getZzimList(@PathVariable("userIdx")int userIdx) {
+        try {
+            List<GetZzimRes> getZzimRes = zzimProvider.UserZzimList(userIdx);
+            return new BaseResponse<>(getZzimRes);
+        } catch(BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
