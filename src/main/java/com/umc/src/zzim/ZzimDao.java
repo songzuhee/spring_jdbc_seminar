@@ -68,4 +68,13 @@ public class ZzimDao {
                 ),selectUserZzimParam);
 
     }
+
+    // 찜 취소
+    public int updateZzimStatus(int userIdx, int storeIdx) {
+        String deleteZzimQuery = "UPDATE Zzim SET status = 'INACTIVE' " +
+                "WHERE userIdx = ? AND storeIdx =? ;";
+        Object[] deleteZzimParam = new Object[]{userIdx, storeIdx};
+
+        return this.jdbcTemplate.update(deleteZzimQuery, deleteZzimParam);
+    }
 }

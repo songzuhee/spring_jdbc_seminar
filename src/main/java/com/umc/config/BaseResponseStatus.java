@@ -43,6 +43,9 @@ public enum BaseResponseStatus {
     DELETE_FAIL_USER(false, 4006, "회원 삭제를 실패하였습니다. "),
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
     USERS_EMPTY_USER_ID(false, 3015, "없는 계정입니다."),
+
+    // Zzim
+    DELETE_FAIL_ZZIM(false, 3016, "찜 취소를 실패하였습니다. "),
     // 5000
     POST_USERS_EMPTY_EMAIL(false, 5000, "이메일을 입력하세요. "),
     POST_USERS_EMPTY_ID(false, 5001, "아이디를 입력하세요. "),

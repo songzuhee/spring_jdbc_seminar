@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import static com.umc.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.umc.config.BaseResponseStatus.DELETE_FAIL_ZZIM;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,18 @@ public class ZzimService {
             int zzimIdx = zzimDao.createZzim(userIdx, storeIdx);
             return new PostZzimRes(zzimIdx);
         } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 찜 취소
+    public void inactiveZzim(int userIdx, int storeIdx) throws BaseException {
+        try {
+            int result = zzimDao.updateZzimStatus(userIdx, storeIdx);
+            if (result == 0) {
+                throw new BaseException(DELETE_FAIL_ZZIM);
+            }
+        } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }
