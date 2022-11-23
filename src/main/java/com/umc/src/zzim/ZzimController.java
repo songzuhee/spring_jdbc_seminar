@@ -68,4 +68,21 @@ public class ZzimController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+    /*
+     * 찜 취소 API
+     * [PATCH] /zzims/:userIdx
+     */
+    @ResponseBody
+    @PatchMapping("/inactive/{userIdx}/{storeIdx}")
+    public BaseResponse<String> inactiveZzim(@PathVariable("userIdx")int userIdx, @PathVariable("storeIdx")int storeIdx) {
+        try {
+
+            zzimService.inactiveZzim(userIdx, storeIdx);
+
+            String result = "찜 취소되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }
