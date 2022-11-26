@@ -7,3 +7,12 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: wngml203@naver.com
+    password: 689QDKFDBU3Q
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
