@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.umc.config.BaseResponseStatus.*;
-import static com.umc.src.utils.ValidationRegex.isRegexEmail;
+import static com.umc.src.utils.ValidationRegex.*;
 
 @Api
 @RestController
@@ -140,7 +140,8 @@ public class UserController {
             @ApiResponse(code = 5003, message = "닉네임을 입력하세요. "),
             @ApiResponse(code = 5004, message = "전화번호를 입력하세요. "),
             @ApiResponse(code = 2004, message = "중복된 이메일입니다."),
-            @ApiResponse(code = 2005, message = "비밀번호가 일치하지 않습니다.")
+            @ApiResponse(code = 2005, message = "비밀번호가 일치하지 않습니다."),
+            @ApiResponse(code = 5011, message = "영문, 특수문자, 숫자 포함 8자 이상으로 비밀번호를 설정해주세요.")
     })
     @ResponseBody
     @PostMapping("/sign-in")
@@ -167,6 +168,10 @@ public class UserController {
             if (!isRegexEmail(postJoinReq.getEmail())) {
                 return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
             }
+            if (!isRegexPassword1(postJoinReq.getPassword())) {
+                return new BaseResponse<>(POST_USER_INVALID_PASSWORD);
+            }
+
 
             PostJoinRes postJoinRes = userService.createUser(postJoinReq);
             return new BaseResponse<>(postJoinRes);
