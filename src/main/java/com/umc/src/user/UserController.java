@@ -199,7 +199,6 @@ public class UserController {
                 return new BaseResponse<>(POST_USER_INVALID_PASSWORD);
             }
 
-
             PostJoinRes postJoinRes = userService.createUser(postJoinReq, MultipartFiles);
             return new BaseResponse<>(postJoinRes);
         } catch (BaseException exception) {
