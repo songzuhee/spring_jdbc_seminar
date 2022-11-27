@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### myignore ###
-application-aws.yml
+application.yml
