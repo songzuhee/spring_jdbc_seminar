@@ -92,21 +92,6 @@ public class UserDao {
 
         return this.jdbcTemplate.update(deleteUserQuery, deleteUserParams);
     }
-
-    public int findByMemberEmail(String email) {
-        String findEmailQuery = "select userIdx from User where email = ?;";
-        String EmailParams = email;
-
-        return this.jdbcTemplate.queryForObject(findEmailQuery, int.class, EmailParams);
-    }
-
-    public int updatePassword(int userIdx, String password) {
-
-        String updatePasswordQuery = "update User set password=? where userIdx =?;";
-        Object[] updatePasswordParams = new Object[] {password, userIdx};
-
-        return this.jdbcTemplate.update(updatePasswordQuery, updatePasswordParams);
-    }
 }
 
 
