@@ -3,6 +3,7 @@ package com.umc.src.user;
 import com.umc.config.BaseException;
 import com.umc.src.auth.Model.PostLoginReq;
 import com.umc.src.auth.Model.PostLoginRes;
+import com.umc.src.s3.S3Service;
 import com.umc.src.user.Model.*;
 import com.umc.src.utils.AES256;
 import com.umc.src.utils.JwtService;
@@ -14,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -21,6 +23,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.MimeMessage;
 import java.net.Authenticator;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import static com.umc.config.BaseResponseStatus.*;
@@ -36,9 +39,10 @@ public class UserService {
     private final JwtService jwtService;
     private final JavaMailSender javaMailSender;
 
+    private final S3Service s3Service;
     // 회원가입
-    @Transactional
-    public PostJoinRes createUser(PostJoinReq postJoinReq) throws BaseException {
+    @Transactional(rollbackFor = BaseException.class)
+    public PostJoinRes createUser(PostJoinReq postJoinReq, List<MultipartFile> MultipartFiles) throws BaseException {
         // 중복 검사
         if (userProvider.checkEmail(postJoinReq.getEmail()) == 1) {
             throw new BaseException(DUPLICATED_EMAIL);
@@ -59,6 +63,17 @@ public class UserService {
 
         try {
             int userIdx = userDao.createUser(postJoinReq);
+            if(MultipartFiles != null) {
+                for (int i = 0; i < MultipartFiles.size(); i++) {
+
+                    //s3 업로드
+                    String s3path = "userPicture/userIdx: " + Integer.toString(userIdx);
+                    String imgPath = s3Service.uploadFile(MultipartFiles.get(i), s3path);
+
+                    // db업로드
+                    s3Service.uploadUserPicture(imgPath, userIdx);
+                }
+            }
             return new PostJoinRes(userIdx);
         } catch (Exception exception) {
             System.out.println(exception);

@@ -1,5 +1,9 @@
 package com.umc.src.user;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.umc.src.s3.S3Service;
 import com.umc.src.user.Model.*;
 import com.umc.config.BaseException;
 import com.umc.config.BaseResponse;
@@ -13,9 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
+
+import java.io.IOException;
 import java.util.List;
 
 import static com.umc.config.BaseResponseStatus.*;
@@ -30,6 +35,7 @@ public class UserController {
     private UserProvider userProvider;
     private UserService userService;
     private JwtService jwtService;
+    private S3Service s3Service;
 
     private JavaMailSender javaMailSender;
     SendToMeDto sendToMeDto = new SendToMeDto();
@@ -37,13 +43,15 @@ public class UserController {
     //@Value("${spring.mail.username}")
     //private String from;
     @Autowired
-    public UserController(UserProvider userProvider, UserService userService, JwtService jwtService, JavaMailSender javaMailSender) {
+    public UserController(UserProvider userProvider, UserService userService, JwtService jwtService, JavaMailSender javaMailSende, S3Service s3Service) {
         this.userProvider = userProvider;
         this.userService = userService;
         this.jwtService = jwtService;
         this.javaMailSender = javaMailSender;
+        this.s3Service = s3Service;
 
     }
+
 
     /*
      * 전체 유저 조회 API
@@ -153,8 +161,12 @@ public class UserController {
             @ApiResponse(code = 5011, message = "영문, 특수문자, 숫자 포함 8자 이상으로 비밀번호를 설정해주세요.")
     })
     @ResponseBody
-    @PostMapping("/sign-in")
-    public BaseResponse<PostJoinRes> createUser(@RequestBody PostJoinReq postJoinReq) {
+    @PostMapping(value = "/sign-in", consumes = {"multipart/form-data"})
+    public BaseResponse<PostJoinRes> createUser(@RequestParam("jsonList")String jsonList,
+                                                @RequestPart(value = "images", required = false) List<MultipartFile> MultipartFiles) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        PostJoinReq postJoinReq = objectMapper.readValue(jsonList, new TypeReference<>() {
+        });
         try {
 
             if (postJoinReq.getEmail() == null) {
@@ -172,6 +184,9 @@ public class UserController {
             if (postJoinReq.getPhoneNumber() == null) {
                 return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
             }
+            if (MultipartFiles == null) {
+                return new BaseResponse<>(EMPTY_IMGURL);
+            }
 
             // 이메일 정규 표현
             if (!isRegexEmail(postJoinReq.getEmail())) {
@@ -182,7 +197,7 @@ public class UserController {
             }
 
 
-            PostJoinRes postJoinRes = userService.createUser(postJoinReq);
+            PostJoinRes postJoinRes = userService.createUser(postJoinReq, MultipartFiles);
             return new BaseResponse<>(postJoinRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
