@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### myignore ###
-src/main/resources/application.yml
+application.yml
