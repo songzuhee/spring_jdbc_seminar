@@ -16,3 +16,23 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.ssl.enable: true
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIA3DFQLJYEXSGZXZJU
+      secretKey: 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
+    s3:
+      bucket: baeminbucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+logging:
+  level:
+    com:
+      amazonaws:
+          util:
+            EC2MetadataUtils: ERROR
+
+            logging.level.org.springframework.boot.autoconfigure: ERROR
