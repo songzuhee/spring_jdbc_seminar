@@ -40,7 +40,6 @@ public class UserService {
     private final JavaMailSender javaMailSender;
 
     private final S3Service s3Service;
-
     // 회원가입
     @Transactional(rollbackFor = BaseException.class)
     public PostJoinRes createUser(PostJoinReq postJoinReq, List<MultipartFile> MultipartFiles) throws BaseException {
@@ -64,7 +63,6 @@ public class UserService {
 
         try {
             int userIdx = userDao.createUser(postJoinReq);
-
             if(MultipartFiles != null) {
                 for (int i = 0; i < MultipartFiles.size(); i++) {
 
@@ -129,7 +127,7 @@ public class UserService {
         dto.setAddress(email);
         dto.setTitle("주희 사이트 임시비밀번호 안내 이메일 입니다. ");
         dto.setMessage("안녕하세요 주희 사이트 임시비밀번호 안내 관련 이메일입니다. " + "회원님의 임시 비밀번호는"
-        + str + "입니다. " + "로그인 후에 비밀번호를 변경 해주세요. ");
+                + str + "입니다. " + "로그인 후에 비밀번호를 변경 해주세요. ");
         updatePassword(str, email);
         return dto;
     }
@@ -180,5 +178,4 @@ public class UserService {
         System.out.println(password);
     }
 }
-
 

@@ -62,7 +62,6 @@ public enum BaseResponseStatus {
     POST_USER_INVALID_PASSWORD2(false, 5012, "반복된 문자는 안됩니다."),
 
     EMPTY_IMGURL(false, 5013, "이미지를 첨부해주세요."),
-
     // 6000
     PASSWORD_DECRYPTION_ERROR(false, 4011, "비밀번호 복호화에 실패하였습니다.");
     private final boolean isSuccess;
@@ -75,5 +74,4 @@ public enum BaseResponseStatus {
         this.message = message;
     }
 }
-
 

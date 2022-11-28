@@ -6,9 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
 @Repository
 public class S3Dao {
-
     private JdbcTemplate jdbcTemplate;
 
     @Resource

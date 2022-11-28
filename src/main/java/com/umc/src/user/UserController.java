@@ -14,7 +14,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.IOException;
-
 import java.util.List;
 
 import static com.umc.config.BaseResponseStatus.*;
@@ -37,7 +35,6 @@ public class UserController {
     private UserProvider userProvider;
     private UserService userService;
     private JwtService jwtService;
-
     private S3Service s3Service;
 
     private JavaMailSender javaMailSender;
@@ -54,6 +51,7 @@ public class UserController {
         this.s3Service = s3Service;
 
     }
+
 
     /*
      * 전체 유저 조회 API
@@ -169,7 +167,6 @@ public class UserController {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         PostJoinReq postJoinReq = objectMapper.readValue(jsonList, new TypeReference<>() {
         });
-
         try {
 
             if (postJoinReq.getEmail() == null) {
@@ -198,6 +195,7 @@ public class UserController {
             if (!isRegexPassword1(postJoinReq.getPassword())) {
                 return new BaseResponse<>(POST_USER_INVALID_PASSWORD);
             }
+
 
             PostJoinRes postJoinRes = userService.createUser(postJoinReq, MultipartFiles);
             return new BaseResponse<>(postJoinRes);
@@ -243,6 +241,4 @@ public class UserController {
         String result = "메일 전송 되었습니다. ";
         return new BaseResponse<>(result);
     }
-
-
 }
