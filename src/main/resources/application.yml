@@ -1,9 +1,0 @@
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: admin
-    url: jdbc:mysql://umc-db.c15co4yvzlav.ap-northeast-2.rds.amazonaws.com/baemin
-    password: 20190976sswu
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
