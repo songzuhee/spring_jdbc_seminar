@@ -87,7 +87,7 @@ public class OrderController {
     })
     @ResponseBody
     @PostMapping("/{userIdx}")
-    public BaseResponse<PostUserReq> createOrder(@PathVariable("userIdx") int userIdx, @RequestBody PostUserReq postUserReq) throws BaseException {
+    public BaseResponse<PostUserRes> createOrder(@PathVariable("userIdx") int userIdx, @RequestBody PostUserReq postUserReq) throws BaseException {
         try {
             if (postUserReq.getPay_method() == null)
             {
@@ -99,7 +99,7 @@ public class OrderController {
             }
 
             PostUserRes postUserRes = orderService.createOrder(userIdx, postUserReq);
-            return new BaseResponse<>(postUserReq);
+            return new BaseResponse<>(postUserRes);
         }   catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
