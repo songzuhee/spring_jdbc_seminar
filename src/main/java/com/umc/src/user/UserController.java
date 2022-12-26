@@ -232,6 +232,15 @@ public class UserController {
         }
     }
 
+    /*
+     * 비밀번호 변경 인증 메일 전송
+     * [POST] /users/mail
+     */
+    @ApiOperation(value = "비밀번호 변경을 위한 인증 메일 전송", notes = "ResquestParam으로 들어온 이메일에 인증 메일 전송")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러")
+    })
     @Transactional
     @PostMapping("/mail")
     public BaseResponse<String> mailPassword(@RequestParam("email")String email) {
