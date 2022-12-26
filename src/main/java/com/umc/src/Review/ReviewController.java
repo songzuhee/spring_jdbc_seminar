@@ -68,6 +68,11 @@ public class ReviewController {
      * 작성한 리뷰 리스트 조회
      * [GET] /reviews/:userIdx
      */
+    @ApiOperation(value = "리뷰 리스트 조회", notes = "{userIdx}가 작성한 리뷰 리스트 조회")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러")
+    })
     @ResponseBody
     @GetMapping("/{userIdx}")
     public BaseResponse<List<GetUserReviewListRes>> getUserReivews(@PathVariable("userIdx")int userIdx){
