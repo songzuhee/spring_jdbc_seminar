@@ -8,8 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import static com.umc.config.BaseResponseStatus.DATABASE_ERROR;
-import static com.umc.config.BaseResponseStatus.DELETE_FAIL_ZZIM;
+import static com.umc.config.BaseResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class ZzimService {
             int zzimIdx = zzimDao.createZzim(userIdx, storeIdx);
             return new PostZzimRes(zzimIdx);
         } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
+            throw new BaseException(FAILED_CREATE_ZZIM);
         }
     }
 
