@@ -6,6 +6,9 @@ import com.umc.src.post.Model.GetPostRes;
 import com.umc.src.post.Model.PathPostReq;
 import com.umc.src.post.Model.PostPostReq;
 import com.umc.src.post.Model.PostPostRes;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +33,18 @@ public class PostController {
         this.postService = postService;
 
     }
-
+    /*
+     * 게시글 조회
+     * [GET] /posts/:postIdx
+     */
+    @ApiOperation(value = "게시글 조회 API", notes = "{postIdx}에 일치하는 게시글 조회")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러"),
+            @ApiResponse(code = 4002, message = "게시글 생성을 실패하였습니다."),
+            @ApiResponse(code = 4003, message = "게시글 삭제를 실패하였습니다."),
+            @ApiResponse(code = 4004, message = "게시글 수정을 실패하였습니다.")
+    })
     @ResponseBody
     @GetMapping("/{postIdx}")
     public BaseResponse<GetPostRes> getPost(@PathVariable("postIdx")int postIdx) {
