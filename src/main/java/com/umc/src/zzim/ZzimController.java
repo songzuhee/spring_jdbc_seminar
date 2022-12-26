@@ -40,7 +40,8 @@ public class ZzimController {
             "해당하는 가게를 찜 ")
     @ApiResponses({
             @ApiResponse(code = 1000, message = "요청 성공"),
-            @ApiResponse(code = 4000, message = "서버 에러")
+            @ApiResponse(code = 4000, message = "서버 에러"),
+            @ApiResponse(code = 3017, message = "찜 생성을 실패하였습니다.")
     })
     @ResponseBody
     @PostMapping("/{userIdx}/{storeIdx}")
@@ -58,6 +59,11 @@ public class ZzimController {
      * 찜 리스트 조회
      * [GET] /zzims/:userIdx
      */
+    @ApiOperation(value = "찜 리스트 조회 API", notes = "{userIdx}가 찜한 리스트 조회")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러")
+    })
     @ResponseBody
     @GetMapping("/{userIdx}")
     public BaseResponse<List<GetZzimRes>> getZzimList(@PathVariable("userIdx")int userIdx) {
@@ -70,8 +76,14 @@ public class ZzimController {
     }
     /*
      * 찜 취소 API
-     * [PATCH] /zzims/:userIdx
+     * [PATCH] /zzims/inactive/:userIdx/:storeIdx
      */
+    @ApiOperation(value = "찜 취소 API", notes = "{userIdx}가 찜한 가게 status 값 INACTIVE 변경")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러"),
+            @ApiResponse(code = 3016, message = "찜 취소를 실패하였습니다.")
+    })
     @ResponseBody
     @PatchMapping("/inactive/{userIdx}/{storeIdx}")
     public BaseResponse<String> inactiveZzim(@PathVariable("userIdx")int userIdx, @PathVariable("storeIdx")int storeIdx) {

@@ -46,6 +46,7 @@ public enum BaseResponseStatus {
 
     // Zzim
     DELETE_FAIL_ZZIM(false, 3016, "찜 취소를 실패하였습니다. "),
+    FAILED_CREATE_ZZIM(false, 3017, "찜 생성을 실패하였습니다."),
     // 5000
     POST_USERS_EMPTY_EMAIL(false, 5000, "이메일을 입력하세요. "),
     POST_USERS_EMPTY_ID(false, 5001, "아이디를 입력하세요. "),
