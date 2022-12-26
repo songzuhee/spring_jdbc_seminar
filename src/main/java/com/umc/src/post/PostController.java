@@ -40,10 +40,7 @@ public class PostController {
     @ApiOperation(value = "게시글 조회 API", notes = "{postIdx}에 일치하는 게시글 조회")
     @ApiResponses({
             @ApiResponse(code = 1000, message = "요청 성공"),
-            @ApiResponse(code = 4000, message = "서버 에러"),
-            @ApiResponse(code = 4002, message = "게시글 생성을 실패하였습니다."),
-            @ApiResponse(code = 4003, message = "게시글 삭제를 실패하였습니다."),
-            @ApiResponse(code = 4004, message = "게시글 수정을 실패하였습니다.")
+            @ApiResponse(code = 4000, message = "서버 에러")
     })
     @ResponseBody
     @GetMapping("/{postIdx}")
@@ -57,7 +54,16 @@ public class PostController {
         }
     }
 
-    // 게시글 작성
+    /*
+     * 게시글 작성
+     * [POST] /posts/
+     */
+    @ApiOperation(value = "게시글 작성 API", notes = "RequestBody로 들어온 내용 작성")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러"),
+            @ApiResponse(code = 4002, message = "게시글 생성을 실패하였습니다.")
+    })
     @ResponseBody
     @PostMapping("/")
     public BaseResponse<PostPostRes> creatPost(@RequestBody PostPostReq postPostReq) throws BaseException {
@@ -73,7 +79,16 @@ public class PostController {
         }
     }
 
-    // 게시글 삭제
+    /*
+     * 게시글 삭제
+     * [PATCH] /posts/:postIdx/status
+     */
+    @ApiOperation(value = "게시글 삭제 API", notes = "{postIdx}에 일치하는 게시글 status 값 INACTIVE 변경")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러"),
+            @ApiResponse(code = 4003, message = "게시글 삭제를 실패하였습니다.")
+    })
     @ResponseBody
     @PatchMapping("/{postIdx}/status")
     public BaseResponse<String> deletePost(@PathVariable("postIdx")int postIdx)
@@ -83,7 +98,16 @@ public class PostController {
         return new BaseResponse<>(result);
     }
 
-    // 게시글 수정
+    /*
+     * 게시글 수정
+     * [PATCH] /posts/change/:postIdx
+     */
+    @ApiOperation(value = "게시글 수정 API", notes = "{postIdx}에 일치하는 게시글 수정")
+    @ApiResponses({
+            @ApiResponse(code = 1000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "서버 에러"),
+            @ApiResponse(code = 4004, message = "게시글 수정을 실패하였습니다.")
+    })
     @ResponseBody
     @PatchMapping("change/{postIdx}")
     public BaseResponse<String> updatePost(@PathVariable("postIdx") int postIdx, @RequestBody PathPostReq pathPostReq) throws BaseException {
